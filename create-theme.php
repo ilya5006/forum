@@ -37,9 +37,9 @@
 
         <!-- --- --> 
         
-        <form class="create-theme" method="" action="">
-            <input type="text" placeholder="Введите название темы">
-            <textarea name=""> Введите текст темы </textarea>
+        <form class="create-theme" method="POST" action="/php/createTheme.php">
+            <input type="text" name="topic_title" placeholder="Введите название темы">
+            <textarea name="topic_text"> Введите текст темы </textarea>
             <button class="button" name=""> Создать новую тему </button>
         </form>
     </div>

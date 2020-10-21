@@ -1,4 +1,12 @@
 <?php
+    require_once __DIR__ . '/php/db.php';
+
+include __DIR__ . '/php/getTopic.php';
+include __DIR__ . '/php/getTopicComments.php';
+
+$topicComments = getTopicComments((int) $_GET['id']);
+
+$topicInfo = getTopic((int) $_GET['id']);
 
 ?>
 
@@ -36,8 +44,8 @@
     <div class="themes">
 
         <div class="heading_wrapper">
-            <h2 class="heading"> Заголовок темы 1 </h2>
-            <h2 class="additional"> Дата создания: <span> 2020-10-14 16:48 </span> </h2>
+            <h2 class="heading"> <?=$topicInfo['title']?> </h2>
+            <h2 class="additional"> Дата создания: <span> <?=$topicInfo['date']?> </span> </h2>
         </div>
 
         <!-- --- --> 
