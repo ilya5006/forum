@@ -1,12 +1,16 @@
-<?php 
-    require_once __DIR__ . '/db.php';
-
-function getTopicComments(int $id)
+<?php
+function getTopicComments(mysqli $db, int $id)
 {
-
-    $comments = $db->query("SELECT * FROM `topic_comments` WHERE `id_topic` = $id");
-
-    if ($comments) {
-        return ($comments)->fetch_all(MYSQLI_ASSOC);
-    }
+    return (
+        $db->query(
+        "SELECT 
+            `topic_comments`.*,
+            `users`.`first_name` 
+        FROM `topic_comments`, `users`
+        WHERE 
+            `id_topic` = $id 
+            AND 
+            `topic_comments`.`id_user` = `users`.`id`"
+        )
+    )->fetch_all(MYSQLI_ASSOC);
 }

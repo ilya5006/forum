@@ -1,9 +1,5 @@
 <?php 
-    require_once __DIR__ . '/db.php';
-
-function getTopic(int $id)
+function getTopic(mysqli $db, int $id)
 {
-    // require_once __DIR__ . '/db.php';
-
     return (($db->query("SELECT * FROM `topics` WHERE `id` = $id"))->fetch_assoc());
 }

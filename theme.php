@@ -1,12 +1,12 @@
 <?php
-    require_once __DIR__ . '/php/db.php';
+require_once __DIR__ . '/php/db.php';
 
 include __DIR__ . '/php/getTopic.php';
 include __DIR__ . '/php/getTopicComments.php';
 
-$topicComments = getTopicComments((int) $_GET['id']);
+$topicComments = getTopicComments($db, (int) $_GET['id']);
 
-$topicInfo = getTopic((int) $_GET['id']);
+$topicInfo = getTopic($db, (int) $_GET['id']);
 
 ?>
 
@@ -44,41 +44,35 @@ $topicInfo = getTopic((int) $_GET['id']);
     <div class="themes">
 
         <div class="heading_wrapper">
-            <h2 class="heading"> <?=$topicInfo['title']?> </h2>
-            <h2 class="additional"> Дата создания: <span> <?=$topicInfo['date']?> </span> </h2>
+            <h2 class="heading"> <?= $topicInfo['title'] ?> </h2>
+            <h2 class="additional"> Дата создания: <span> <?= (new DateTime($topicInfo['date']))->format('Y-m-d H:i') ?> </span> </h2>
         </div>
 
         <!-- --- --> 
 
         <div class="theme">
-            <p class="text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
+            <p class="text"> <?= $topicInfo['text'] ?> </p>
         </div>
 
         <!-- --- --> 
 
-        <div class="reply">
-            <p class="text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-            <p class="reply-info"> ответил <span class="user-name"> user07 </span> в <span class="date"> 2020.10.14 17:51  </span> </p>
-        </div>
+        <?php
+        foreach ($topicComments as $comment):
+        ?>
 
-        <!-- --- --> 
+            <div class="reply">
+                <p class="text"> <?= $comment['text'] ?> </p>
+                <p class="reply-info"> ответил <span class="user-name"> <?=$comment['first_name'] ?> </span> в <span class="date"> <?= (new DateTime($comment['date']))->format('Y-m-d H:i') ?> </span> </p>
+            </div>
 
-        <div class="reply">
-            <p class="text"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas vitae quidem at blanditiis repellat voluptatibus cupiditate, laborum fugiat similique voluptate praesentium ratione neque illum expedita quaerat. Inventore tenetur nam eos.Possimus amet dolorem quam dolores nostrum? Tenetur tempora, corporis labore modi dolor, non sit vero sint inventore quos, culpa voluptatum praesentium cupiditate quasi saepe debitis! Consectetur ullam nulla autem eum? </p>
-            <p class="reply-info"> ответил <span class="user-name"> user23 </span> в <span class="date"> 2020.10.14 17:52  </span> </p>
-        </div>
-
-        <!-- --- --> 
-
-        <div class="reply">
-            <p class="text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-            <p class="reply-info"> ответил <span class="user-name"> user03 </span> в <span class="date"> 2020.10.14 17:56  </span> </p>
-        </div> 
-
-        <!-- --- --> 
+        <?php
+        endforeach;
+        ?>
         
-        <form class="form-reply" method="" action="">
-            <textarea name=""> Введите сообщение </textarea>
+        <form class="form-reply" method="POST" action="/php/createComment.php">
+            <input type="hidden" value="<?=(int) $_GET['id']?>" name="id_topic">
+            <input type="hidden" value="<?=(int) $_SESSION['id_user']?>" name="id_user">
+            <textarea name="comment_text"> Введите сообщение </textarea>
             <button class="button" name=""> Отправить </button>
         </form>
 
