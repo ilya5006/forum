@@ -3,6 +3,7 @@ session_start();
 
 require_once __DIR__ . '/php/db.php';
 require_once __DIR__ . '/php/getAllTopics.php';
+require_once __DIR__ . '/php/isUserAdmin.php';
 
 $topics = getAllTopics($db);
 
@@ -57,12 +58,12 @@ $topics = getAllTopics($db);
             <div class="theme">
                 <h3> <?= $topic['title'] ?> </h3>
                 <p class="theme-status"> Статус темы: <span><?= $topic['status']?></span> </p>
-                <p class="theme-date"> Дата создания: <span><?= $topic['date'] ?></span> </p>
+                <p class="theme-date"> Дата создания: <span><?= (new DateTime($topic['date']))->format('Y-m-d H:i') ?></span> </p>
                 <p class="pretext"> <?= $topic['text'] ?> </p>
             </div>
 
             <?php
-            if ($topic['status'] == 'Ожидает модерацию'):
+            if ($topic['status'] == 'Ожидает модерацию' && isUserAdmin($db, (int) $_SESSION['id_user'])):
             ?>
                 <div class="theme-control">
                     <a href="/php/acceptTopic.php?id=<?= $topic['id'] ?>" class="button"> Принять </a>
@@ -75,8 +76,5 @@ $topics = getAllTopics($db);
         ?>
     </div>
     <!-- конец секции со всеми темами -->
-
-
-
 </body>
 </html>

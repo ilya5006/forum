@@ -75,13 +75,18 @@ $topicInfo = getTopic($db, (int) $_GET['id']);
         endforeach;
         ?>
         
-        <form class="form-reply" method="POST" action="/php/createComment.php">
-            <input type="hidden" value="<?=(int) $_GET['id']?>" name="id_topic">
-            <input type="hidden" value="<?=(int) $_SESSION['id_user']?>" name="id_user">
-            <textarea name="comment_text"> Введите сообщение </textarea>
-            <button class="button" name=""> Отправить </button>
-        </form>
-
+        <?php
+        if (isset($_SESSION['id_user'])):
+        ?>
+            <form class="form-reply" method="POST" action="/php/createComment.php">
+                <input type="hidden" value="<?=(int) $_GET['id']?>" name="id_topic">
+                <input type="hidden" value="<?=(int) $_SESSION['id_user']?>" name="id_user">
+                <textarea name="comment_text"> Введите сообщение </textarea>
+                <button class="button" name=""> Отправить </button>
+            </form>
+        <?php
+        endif;
+        ?>
     </div>
     <!-- конец секции одной темой-->
 </body>

@@ -59,7 +59,7 @@ $topics = getUserTopics($db, (int) $_SESSION['id_user']);
             <div class="theme">
                 <h3> <?= $topic['title'] ?> </h3>
                 <p class="theme-status"> Статус темы: <span><?= $topic['status'] ?></span> </p>
-                <p class="theme-date"> Дата создания: <span><?= $topic['date'] ?></span> </p>
+                <p class="theme-date"> Дата создания: <span><?= (new DateTime($topic['date']))->format('Y-m-d H:i') ?></span> </p>
                 <p class="pretext"> <?= $topic['text'] ?> </p>
             </div>
         <?php
