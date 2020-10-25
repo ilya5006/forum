@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 21 2020 г., 22:54
+-- Время создания: Окт 25 2020 г., 21:08
 -- Версия сервера: 8.0.19
 -- Версия PHP: 7.4.5
 
@@ -79,8 +79,12 @@ CREATE TABLE `topics` (
 --
 
 INSERT INTO `topics` (`id`, `id_user`, `id_status`, `title`, `text`, `date`) VALUES
-(4, 4, 1, 'wqwewqewq', 'wqwewqewq', '2020-10-21 20:22:35'),
-(5, 4, 1, 'xcvrterwf', 'xcvrterwf', '2020-10-21 20:29:14');
+(4, 4, 3, 'wqwewqewq', 'wqwewqewq', '2020-10-21 20:22:35'),
+(5, 4, 2, 'xcvrterwf', 'xcvrterwf', '2020-10-21 20:29:14'),
+(6, 6, 2, 'xcvrthytjhtewf', 'xcvrthytjhtewf', '2020-10-25 19:28:02'),
+(9, 5, 3, 'dwadawdwadaw', 'cbcbcvbvcbcvb', '2020-10-25 20:31:35'),
+(10, 7, 2, 'Opa', 'Opa', '2020-10-25 20:40:02'),
+(11, 4, 1, 'New topic', 'New topic', '2020-10-25 21:07:01');
 
 -- --------------------------------------------------------
 
@@ -101,7 +105,9 @@ CREATE TABLE `topic_comments` (
 --
 
 INSERT INTO `topic_comments` (`id`, `id_user`, `id_topic`, `text`, `date`) VALUES
-(1, 6, 5, 'dwadwadwa', '2020-04-27 00:00:00');
+(1, 6, 5, 'dwadwadwa', '2020-04-27 00:00:00'),
+(6, 5, 5, 'zzzz', '2020-10-22 19:41:55'),
+(7, 7, 6, 'ablab', '2020-10-26 19:28:44');
 
 -- --------------------------------------------------------
 
@@ -215,13 +221,13 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `topic_comments`
 --
 ALTER TABLE `topic_comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `topic_status`
