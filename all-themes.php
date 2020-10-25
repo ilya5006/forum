@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/php/db.php';
+require_once __DIR__ . '/php/getAllTopics.php';
+
+$topics = getAllTopics($db);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -16,7 +26,11 @@
             <ul class="user-menu">
                 <li> <a href="./index.php"> Главная </a> </li>
                 <li> <a href="./my-themes.php"> Ваши темы </a> </li>
-                <li> <a href="./register.php"> Выход </a> </li>
+                <?php if (isset($_SESSION['id_user'])):?>
+                    <li> <a href="/php/logout.php"> Выход </a> </li>
+                <?php else: ?>
+                    <li> <a href="./login.php"> Вход </a> </li>
+                <?php endif; ?>
             </ul>
 
             <ul class="admin-menu">
@@ -37,49 +51,28 @@
 
         <!-- --- --> 
 
-        <div class="theme">
-            <h3> Заголовок темы 1 </h3>
-            <p class="theme-status"> Статус темы: <span>Ожидает модерацию</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-        <div class="theme-control">
-            <a href="#" class="button"> Принять </a>
-            <a href="#" class="button"> Отклонить </a>
-        </div>
+        <?php
+        foreach ($topics as $topic):
+        ?>
+            <div class="theme">
+                <h3> <?= $topic['title'] ?> </h3>
+                <p class="theme-status"> Статус темы: <span><?= $topic['status']?></span> </p>
+                <p class="theme-date"> Дата создания: <span><?= $topic['date'] ?></span> </p>
+                <p class="pretext"> <?= $topic['text'] ?> </p>
+            </div>
 
-        <!-- --- --> 
+            <?php
+            if ($topic['status'] == 'Ожидает модерацию'):
+            ?>
+                <div class="theme-control">
+                    <a href="/php/acceptTopic.php?id=<?= $topic['id'] ?>" class="button"> Принять </a>
+                    <a href="/php/rejectTopic.php?id=<?= $topic['id'] ?>" class="button"> Отклонить </a>
+                </div>
+            <?php
+            endif;
 
-        <div class="theme">
-            <h3> Заголовок темы 1 </h3>
-            <p class="theme-status"> Статус темы: <span>Ожидает модерацию</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-        <div class="theme-control">
-            <a href="#" class="button"> Принять </a>
-            <a href="#" class="button"> Отклонить </a>
-        </div>
-
-        <!-- --- --> 
-
-        <div class="theme">
-            <h3> <a href="theme.php"> Заголовок темы 2 </a> </h3>
-            <p class="theme-status"> Статус темы: <span>Прошла модерацию</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="reply-count"> Количество ответов в теме: <span>14</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-
-        <!-- --- --> 
-
-        <div class="theme">
-            <h3> Заголовок темы 3 </h3>
-            <p class="theme-status"> Статус темы: <span>Отклонена</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-
+        endforeach;
+        ?>
     </div>
     <!-- конец секции со всеми темами -->
 

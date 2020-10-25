@@ -19,7 +19,7 @@ if (empty($topicText)) {
 }
 
 
-if (! $db->query("INSERT INTO `topics` VALUES (null, {$idUser}, 1, '{$themeTitle}', '{$themeText}', NOW())")) {
+if (! $db->query("INSERT INTO `topics` VALUES (null, {$idUser}, 1, '{$topicTitle}', '{$topicText}', NOW())")) {
     header('Location: /create-theme.php?error=Произошла+ошибка+попробуйте+снова');
 }
 

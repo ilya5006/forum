@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -16,7 +19,11 @@
             <ul class="user-menu">
                 <li> <a href="./index.php"> Главная </a> </li>
                 <li> <a href="./my-themes.php"> Ваши темы </a> </li>
-                <li> <a href="./register.php"> Выход </a> </li>
+                <?php if (isset($_SESSION['id_user'])):?>
+                    <li> <a href="/php/logout.php"> Выход </a> </li>
+                <?php else: ?>
+                    <li> <a href="./login.php"> Вход </a> </li>
+                <?php endif; ?>
             </ul>
 
             <ul class="admin-menu">
@@ -37,7 +44,7 @@
 
         <!-- --- --> 
         
-        <form class="create-theme" method="POST" action="/php/createTheme.php">
+        <form class="create-theme" method="POST" action="/php/createTopic.php">
             <input type="text" name="topic_title" placeholder="Введите название темы">
             <textarea name="topic_text"> Введите текст темы </textarea>
             <button class="button" name=""> Создать новую тему </button>

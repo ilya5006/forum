@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (empty($_SESSION['id_user'])) {
+    header('Location: /');
+}
+
+require_once __DIR__ . '/php/db.php';
+require_once __DIR__ . '/php/getUserTopics.php';
+
+$topics = getUserTopics($db, (int) $_SESSION['id_user']);
+
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -16,7 +29,11 @@
             <ul class="user-menu">
                 <li> <a href="./index.php"> Главная </a> </li>
                 <li> <a href="./my-themes.php"> Ваши темы </a> </li>
-                <li> <a href="./register.php"> Выход </a> </li>
+                <?php if (isset($_SESSION['id_user'])):?>
+                    <li> <a href="/php/logout.php"> Выход </a> </li>
+                <?php else: ?>
+                    <li> <a href="./login.php"> Вход </a> </li>
+                <?php endif; ?>
             </ul>
 
             <ul class="admin-menu">
@@ -36,34 +53,18 @@
             <a href="./create-theme.php" class="button additional"> Создать новую тему </a>
         </div>
 
-        <!-- --- --> 
-
-        <div class="theme">
-            <h3> Заголовок темы 1 </h3>
-            <p class="theme-status"> Статус темы: <span>Ожидает модерацию</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-
-        <!-- --- --> 
-
-        <div class="theme">
-            <h3> <a href="theme.php"> Заголовок темы 2 </a> </h3>
-            <p class="theme-status"> Статус темы: <span>Прошла модерацию</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="reply-count"> Количество ответов в теме: <span>14</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-
-        <!-- --- --> 
-
-        <div class="theme">
-            <h3> Заголовок темы 3 </h3>
-            <p class="theme-status"> Статус темы: <span>Отклонена</span> </p>
-            <p class="theme-date"> Дата создания: <span>14-10-2020 14:35:28</span> </p>
-            <p class="pretext"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid accusantium consequatur aut tempore exercitationem maiores adipisci ea voluptatum deleniti quisquam, neque quod. Repellendus aliquam incidunt tempore mollitia beatae non repudiandae! </p>
-        </div>
-        
+        <?php
+        foreach ($topics as $topic):
+        ?>
+            <div class="theme">
+                <h3> <?= $topic['title'] ?> </h3>
+                <p class="theme-status"> Статус темы: <span><?= $topic['status'] ?></span> </p>
+                <p class="theme-date"> Дата создания: <span><?= $topic['date'] ?></span> </p>
+                <p class="pretext"> <?= $topic['text'] ?> </p>
+            </div>
+        <?php
+        endforeach;
+        ?>
     </div>
     <!-- конец секции со своими темами -->
 

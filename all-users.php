@@ -31,7 +31,11 @@ $allUsers = getAllUsers((int) $_SESSION['id_user']);
             <ul class="user-menu">
                 <li> <a href="./index.php"> Главная </a> </li>
                 <li> <a href="./my-themes.php"> Ваши темы </a> </li>
-                <li> <a href="./register.php"> Выход </a> </li>
+                <?php if (isset($_SESSION['id_user'])):?>
+                    <li> <a href="/php/logout.php"> Выход </a> </li>
+                <?php else: ?>
+                    <li> <a href="./login.php"> Вход </a> </li>
+                <?php endif; ?>
             </ul>
 
             <ul class="admin-menu">
